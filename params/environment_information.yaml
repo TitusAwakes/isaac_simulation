@@ -1,0 +1,7 @@
+environment:
+  timestep_size: 1 
+  episode_length: 1000
+  number_of_episodes: 100
+  number_of_robots: 1
+  number_of_sensors: 1
+  number_of_charging_stations: 1
