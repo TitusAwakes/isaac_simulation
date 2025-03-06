@@ -1,0 +1,29 @@
+battery_parameters:
+  discharge_curve:
+    robot:
+      idle:
+        consumption_in_ma: 100
+      moving:
+        consumption_in_ma: 200
+      end_of_exponential_phase: 0.95
+      end_of_linear_phase: 0.05
+      end_of_rational_phase: 0.01
+      nominal_capacity_in_mah: 1000
+    wireless_sensor:
+      end_of_exponential_phase: 0.95
+      end_of_linear_phase: 0.05
+      end_of_rational_phase: 0.01
+      nominal_capacity_in_mah: 1000
+    
+  charge_curve:
+    wireless_charging:
+      robot:
+        recharge_delta_in_mah: 100
+      wireless_sensor:
+        recharge_delta_in_mah: 100
+    docked_charging:
+      robot:
+        recharge_delta_in_mah: 200
+      wireless_sensor:
+        recharge_delta_in_mah: 200
+    
