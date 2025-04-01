@@ -1,6 +1,8 @@
 # Based on:
 # doi:10.3390/en12010027
 
+# The proposed equations should be equal to solving the definite integrals, considering the time step size as the interval of integration.
+
 def sensor_power_consumption_model(sensor_power=0.5, timestep_size=1, v_max=1):
     """Power consumption model for the sensor.
 
@@ -83,10 +85,3 @@ def motion_system_power_consumption_model(timestep_size=1, robot_mass=1, robot_v
     E_motion = E_k + E_f + E_e + E_m # Total energy consumption of the motion system
     
     return E_motion
-
-
-
-    
-
-    
-
