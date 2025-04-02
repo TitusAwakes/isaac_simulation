@@ -58,7 +58,7 @@ def control_power_consumption_model(control_power=0.5, timestep_size=1, current_
         return E_standby
     elif current_state == "STARTUP": 
         v_delta = new_velocity - current_velocity
-        E_startup = (t * ((starting_factor * v_delta) + ((t)/30) + (P_standby))) # Solution to the integral of the power consumption model for the control system. Actually I'm not too sure on this one, 
+        E_startup = (t * ((starting_factor * v_delta) + ((t*t)/30) + (P_standby))) # Solution to the integral of the power consumption model for the control system. Actually I'm not too sure on this one, 
         # but I believe it is correct. We would get three anti-derivatives, so for each one we needed to define the interval. TODO: Re-solve this one.
         return E_startup
     elif current_state == "STABLE":
