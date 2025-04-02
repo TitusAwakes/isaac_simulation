@@ -1,6 +1,8 @@
 # Based on:
 # doi:10.3390/en12010027
 
+import math
+
 # The proposed equations should be equal to solving the definite integrals, considering the time step size as the interval of integration.
 
 def sensor_power_consumption_model(sensor_power=0.5, timestep_size=1, v_max=1):
@@ -18,7 +20,7 @@ def sensor_power_consumption_model(sensor_power=0.5, timestep_size=1, v_max=1):
     v_max = v_max # 1m/s
     P_sensor = sensor_power
 
-    E_sensor = ((1/v_max) * (P_sensor * t)) * t # Paper describes Psensor to be integrated over time, but since Psensor is constant, we can just multiply it with the time step size 
+    E_sensor = ((1/v_max) * (P_sensor * t)) # Paper describes Psensor to be integrated over time, but since Psensor is constant, we can just multiply it with the time step size 
 
     return E_sensor
 
@@ -45,15 +47,15 @@ def control_power_consumption_model(control_power=0.5, timestep_size=1, current_
     t = timestep_size # 1s, timestep size
 
     if current_state == "STANDBY":
-        E_standby = (P_standby * t)*t # Energy consumption in standby mode, paper describes P_standby * delta_t, but since delta_t is constant, we can just multiply it with the time step size
+        E_standby = (P_standby * t) # Energy consumption in standby mode, paper describes P_standby * delta_t, but since delta_t is constant, we can just multiply it with the time step size
         return E_standby
     elif current_state == "STARTUP": 
         v_delta = new_velocity - current_velocity
-        E_startup = (t * ((starting_factor * v_delta) + ((t)/30) + (P_standby))) * t # Solution to the integral of the power consumption model for the control system. Actually I'm not too sure on this one, 
+        E_startup = (t * ((starting_factor * v_delta) + ((t)/30) + (P_standby))) # Solution to the integral of the power consumption model for the control system. Actually I'm not too sure on this one, 
         # but I believe it is correct. We would get three anti-derivatives, so for each one we needed to define the interval. TODO: Re-solve this one.
         return E_startup
     elif current_state == "STABLE":
-        E_stable = P_standby * ((t*t*t)/3) * t
+        E_stable = P_standby * ((t*t*t)/3)
         return E_stable
     else: 
         raise ValueError("Invalid state. Must be 'STANDBY', 'STARTUP', or 'STABLE'.")
@@ -77,10 +79,11 @@ def motion_system_power_consumption_model(timestep_size=1, robot_mass=1, robot_v
     """
 
     t = timestep_size
-    E_k = robot_mass * (robot_velocity**2 / 2) # Kinetic energy of the robot
-    E_f = friction_coefficient * robot_mass * robot_velocity * t
-    E_e = ((time_heat_constant_epsilon * (t*t*t/3)) * t) + (time_heat_constant_lambda * robot_velocity * t * t) + ((time_heat_constant_lambda * (t*t)/2) * t)  # Energy consumption due to heat generation 
-    E_m = 0 # Actually I haven't solved this one yet, so placeholder for now. TODO: Solve this one.
+    E_k = robot_mass * ((robot_velocity**2) / 2) # Kinetic energy of the robot
+    E_f = friction_coefficient * robot_mass * robot_velocity
+    E_e = ((time_heat_constant_epsilon * (t*t*t/3)) * t) + (time_heat_constant_lambda * robot_velocity * t * t) + (time_heat_constant_lambda * (t*t)/2)  # Energy consumption due to heat generation
+    E_m = robot_mass * ((math.e**drag_coefficient*t)/((drag_coefficient**2) + (vibration_velocity_coefficient**2))) * ((drag_coefficient*math.cos((vibration_velocity_coefficient*t) + (robot_velocity) + (robot_mass/2)))
+    + (vibration_velocity_coefficient*math.sin((vibration_velocity_coefficient*t) + robot_velocity + (robot_mass/2)))) + (robot_mass * t) # Energy consumption due to motion
 
     E_motion = E_k + E_f + E_e + E_m # Total energy consumption of the motion system
     
