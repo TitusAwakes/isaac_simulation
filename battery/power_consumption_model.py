@@ -3,7 +3,10 @@
 
 import math
 
-# The proposed equations should be equal to solving the definite integrals, considering the time step size as the interval of integration.
+# The proposed equations should be equal to solving the indefinite integral of the power consumption model for the sensor, control system and motion system.
+# Usage: 
+# energy_usage = consumption_model(timestep_size=0) - consumption_model(timestep_size=1) 
+# TODO: refactor the timestep_size name to delta_t or something similar, because it is not the time step size, but the time step size used in the calculation of the energy consumption model.
 
 def sensor_power_consumption_model(sensor_power=0.5, timestep_size=1, v_max=1):
     """Power consumption model for the sensor.
