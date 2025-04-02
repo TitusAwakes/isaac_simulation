@@ -13,7 +13,8 @@ def sensor_power_consumption_model(sensor_power=0.5, timestep_size=1, v_max=1):
         timestep_size (float): Size of the time step in seconds.    
 
     Returns:
-        _type_: _description_
+        float: Energy consumption of the sensor in joules.
+
     """
 
     t = timestep_size # 1s, timestep size
@@ -36,6 +37,9 @@ def control_power_consumption_model(control_power=0.5, timestep_size=1, current_
         starting_factor (float): Starting factor for the power consumption model.
         current_velocity (float): Current velocity of the control system.
         new_velocity (float): New velocity of the control system."
+    
+    Returns:
+        float: Energy consumption of the control system in joules, depending on the current state.
         """
 
     # There's a possible issue here but I believe it is correct:
@@ -76,6 +80,9 @@ def motion_system_power_consumption_model(timestep_size=1, robot_mass=1, robot_v
         speed_heat_constant (float): Speed heat constant.
         drag_coefficient (float): Drag coefficient.
         vibration_velocity_coefficient (float): Vibration velocity coefficient.
+
+    Returns:
+        float: Energy consumption of the motion system in joules.
     """
 
     t = timestep_size
