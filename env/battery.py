@@ -85,4 +85,3 @@ class BatteryModel:
         """
 
         return device_battery_level - self.battery_delta_rational
-

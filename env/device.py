@@ -41,7 +41,3 @@ class Device:
                 return -1 # Device is out of battery
             else:
                 return 0 # Device is still alive
-        
-
-    
-
