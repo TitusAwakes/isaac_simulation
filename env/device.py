@@ -35,6 +35,13 @@ class Device:
             else:
                 raise ValueError("Invalid state")
             
+            self.battery_level_percent = (self.battery_level_mah / self.max_battery_level_mah) * 100
+
+            if self.battery_level_mah > self.max_battery_level_mah:
+                self.battery_level_mah = self.max_battery_level_mah
+                self.battery_level_percent = 100
+                return 0 # Device is still alive
+            
             if self.battery_level_mah < 0:
                 self.battery_level_mah = 0
                 self.battery_level_percent = (self.battery_level_mah / self.max_battery_level_mah) * 100
