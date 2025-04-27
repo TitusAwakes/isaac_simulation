@@ -41,3 +41,10 @@ class Device:
                 return -1 # Device is out of battery
             else:
                 return 0 # Device is still alive
+        
+        def change_state(self, new_state):
+            """Change device state."""
+            if new_state in ["IDLE", "ACTIVE"]:
+                self.state = new_state
+            else:
+                raise ValueError("Invalid state passed to change_state")
