@@ -2,6 +2,8 @@ name: Navigation pkg CI
 
 on:
   push:
+    branches:
+      - navigation
   pull_request:
 
 jobs:
