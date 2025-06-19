@@ -1,4 +1,4 @@
-name: Control pkg CI
+name: Navigation pkg CI
 
 on:
   push:
