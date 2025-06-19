@@ -7,7 +7,7 @@
 class WaitForOrder : public BT::SyncActionNode
 {
 public:
-  WaitForOrder(const std::string &name, const BT::NodeConfiguration &config);
+  WaitForOrder(const std::string & name, const BT::NodeConfiguration & config);
 
   ~WaitForOrder();
 
