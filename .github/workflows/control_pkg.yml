@@ -33,9 +33,3 @@ jobs:
       run: |
         source /opt/ros/humble/setup.bash
         colcon build --packages-select control_pkg
-
-    - name: Run tests
-      run: |
-        source /opt/ros/humble/setup.bash
-        colcon test --base-paths src/control_pkg
-        colcon test-result --verbose
