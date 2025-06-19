@@ -6,7 +6,7 @@
 #include "scout_nav2_pkg/wait_for_order.hpp"
 #include "scout_nav2_pkg/navigate_to_pose.hpp"
 
-int main(int argc, char **argv)
+int main(int argc, char ** argv)
 {
   rclcpp::init(argc, argv);
 
@@ -18,8 +18,7 @@ int main(int argc, char **argv)
 
   BT::NodeStatus status = BT::NodeStatus::RUNNING;
 
-  while (rclcpp::ok() && status == BT::NodeStatus::RUNNING)
-  {
+  while (rclcpp::ok() && status == BT::NodeStatus::RUNNING) {
     status = tree.tickRoot();
     rclcpp::spin_some(rclcpp::Node::make_shared("bt_tick"));
     std::this_thread::sleep_for(std::chrono::milliseconds(100));

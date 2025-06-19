@@ -1,0 +1,41 @@
+name: Navigation pkg CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup ROS 2 Humble
+      uses: ros-tooling/setup-ros@v0.7
+      with:
+        required-ros-distributions: humble
+
+    - name: Install general system dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y python3-colcon-common-extensions python3-pip
+        python3 -m pip install --upgrade pip
+        python3 -m pip install setuptools
+
+    - name: Install workspace dependencies with rosdep
+      run: |
+        rosdep update
+        rosdep install --from-paths src/scout_nav2_pkg --ignore-src -r -y --rosdistro humble
+
+    - name: Build the workspace
+      run: |
+        source /opt/ros/humble/setup.bash
+        colcon build --packages-select scout_nav2_pkg
+
+    - name: Run tests
+      run: |
+        source /opt/ros/humble/setup.bash
+        colcon test --base-paths src/scout_nav2_pkg
+        colcon test-result --verbose
