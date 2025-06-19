@@ -1,0 +1,23 @@
+<root main_tree_to_execute="MoveArm">
+  <BehaviorTree ID="MoveArm">
+    <Sequence name="MoveArmSequence">
+      <!-- Espera por uma pose de destino para o braço -->
+      <WaitForOrder output_goal="{arm_target_pose}" />
+
+      <!-- Usa o MoveIt2 para calcular IK e gerar trajetória -->
+      <ComputeIK 
+          ik_frame="tool0" 
+          robot_description_param="robot_description"
+          group="arm"
+          target_pose="{arm_target_pose}" 
+          result_joint_values="{computed_joint_values}" />
+
+      <!-- Executa o movimento do braço com base nos valores de junta -->
+      <MoveJoints
+          joint_names="joint1,joint2,joint3,joint4,joint5,joint6"
+          joint_values="{computed_joint_values}"
+          group="arm"
+          robot_description_param="robot_description"/>
+    </Sequence>
+  </BehaviorTree>
+</root>

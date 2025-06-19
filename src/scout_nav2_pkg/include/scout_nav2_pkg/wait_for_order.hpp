@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SCOUT_NAV2_PKG_WAIT_FOR_ORDER_HPP_
+#define SCOUT_NAV2_PKG_WAIT_FOR_ORDER_HPP_
 
 #include "behaviortree_cpp_v3/action_node.h"
 #include "rclcpp/rclcpp.hpp"
@@ -22,3 +23,5 @@ private:
   std::atomic<bool> new_msg_;
   std::thread thread_;
 };
+
+#endif // SCOUT_NAV2_PKG_WAIT_FOR_ORDER_HPP_
