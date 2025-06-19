@@ -32,8 +32,7 @@ jobs:
     - name: Build the workspace
       run: |
         source /opt/ros/humble/setup.bash
-        cd src/control_pkg
-        colcon build 
+        colcon build --packages-select control_pkg
 
     - name: Run tests
       run: |
