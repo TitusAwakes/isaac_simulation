@@ -1,0 +1,39 @@
+name: Isaac Simulation CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup ROS 2 Humble
+      uses: ros-tooling/setup-ros@v0.6
+      with:
+        required-ros-distributions: humble
+
+    - name: Install system dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y python3-colcon-common-extensions python3-pip
+        pip3 install -U setuptools
+
+    - name: Install ROS 2 dependencies
+      run: |
+        sudo apt update
+        rosdep update
+        rosdep install --from-paths . --ignore-src -r -y
+
+    - name: Build workspace
+      run: |
+        colcon build --base-paths . --event-handlers console_direct+
+
+    - name: Run tests
+      run: |
+        colcon test --base-paths .
+        colcon test-result --verbose
