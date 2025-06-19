@@ -43,7 +43,9 @@ def build_robot_table(robot_pose_array):
     robot_table = list()
 
     # Set up the robot table
-    for i in range(len(robot_pose_array) - environment_data["number_of_sensors"]):
+    for i in range(
+            len(robot_pose_array) -
+            environment_data["number_of_sensors"]):
         new_point = Point(
             robot_pose_array[i].position.x,
             robot_pose_array[i].position.y,
@@ -71,7 +73,8 @@ def build_sensor_table(sensor_pose_array):
     device_table = list()
 
     # Set up the sensor table
-    for i in range(len(sensor_pose_array) + environment_data["number_of_robots"]):
+    for i in range(len(sensor_pose_array) +
+                   environment_data["number_of_robots"]):
         new_point = Point(
             sensor_pose_array[i].position.x,
             sensor_pose_array[i].position.y,

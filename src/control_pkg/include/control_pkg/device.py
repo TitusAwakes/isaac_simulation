@@ -15,8 +15,11 @@ class Quaternion:
 
 class Device:
     def __init__(
-        self, device_id: str, point: Point, quaternion: Quaternion, battery_level: float
-    ):
+            self,
+            device_id: str,
+            point: Point,
+            quaternion: Quaternion,
+            battery_level: float):
         self.device_id = device_id
         self.point = point
         self.quaternion = quaternion

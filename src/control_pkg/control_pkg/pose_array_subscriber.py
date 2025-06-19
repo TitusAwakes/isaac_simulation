@@ -16,10 +16,10 @@ class PoseArraySubscriber(Node):
         for i, pose in enumerate(msg.poses):
             self.get_logger().info(
                 f"Pose {i}: Position(x={pose.position.x}, y={pose.position.y}, z={pose.position.z}), "
-                f"Orientation(x={pose.orientation.x}, y={pose.orientation.y}, z={pose.orientation.z}, w={pose.orientation.w})"
-            )
+                f"Orientation(x={pose.orientation.x}, y={pose.orientation.y}, z={pose.orientation.z}, w={pose.orientation.w})")
 
-        # Forward it to the control node, probably build a device pose table. Probably can run this only once.
+        # Forward it to the control node, probably build a device pose table.
+        # Probably can run this only once.
 
 
 def main(args=None):
