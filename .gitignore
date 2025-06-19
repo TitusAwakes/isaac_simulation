@@ -3,3 +3,4 @@ piper_isaac_sim
 log/
 install/
 build/
+.vscode
