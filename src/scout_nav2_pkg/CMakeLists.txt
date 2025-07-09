@@ -17,6 +17,7 @@ find_package(geometry_msgs REQUIRED)
 find_package(nav2_msgs REQUIRED)
 find_package(behaviortree_cpp_v3 REQUIRED)
 find_package(rclcpp_action REQUIRED)
+find_package(trajectory_msgs REQUIRED)
 
 include_directories(
   include
@@ -26,7 +27,8 @@ include_directories(
 add_executable(bt_runner
   src/main.cpp
   src/nodes/wait_for_order.cpp
-  src/nodes/navigate_to_pose.cpp
+  src/nodes/send_goal_pose.cpp
+  src/nodes/move_joints.cpp
 )
 
 ament_target_dependencies(bt_runner
@@ -36,6 +38,7 @@ ament_target_dependencies(bt_runner
   nav2_msgs
   behaviortree_cpp_v3
   rclcpp_action
+  trajectory_msgs 
 )
 
 install(TARGETS bt_runner

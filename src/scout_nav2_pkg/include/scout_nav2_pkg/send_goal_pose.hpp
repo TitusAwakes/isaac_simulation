@@ -14,10 +14,10 @@
 
 using NavigateAction = nav2_msgs::action::NavigateToPose;
 
-class NavigateToPose : public BT::StatefulActionNode
+class SendGoalPose : public BT::StatefulActionNode
 {
 public:
-  NavigateToPose(const std::string & name, const BT::NodeConfiguration & config);
+  SendGoalPose(const std::string & name, const BT::NodeConfiguration & config);
 
   static BT::PortsList providedPorts();
 

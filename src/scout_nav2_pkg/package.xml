@@ -19,11 +19,9 @@
   <depend>rclcpp_action</depend>
   <depend>std_msgs</depend>
   <depend>geometry_msgs</depend>
-  <depend>nav_msgs</depend>
-  <depend>std_srvs</depend>
-
-  <!-- Actions -->
   <depend>nav2_msgs</depend>
+  <depend>std_srvs</depend>
+  <depend>trajectory_msgs</depend>
 
   <!-- tf2 -->
   <depend>tf2</depend>

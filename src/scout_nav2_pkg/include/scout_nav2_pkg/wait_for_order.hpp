@@ -9,19 +9,15 @@ class WaitForOrder : public BT::SyncActionNode
 {
 public:
   WaitForOrder(const std::string & name, const BT::NodeConfiguration & config);
-
-  ~WaitForOrder();
-
   static BT::PortsList providedPorts();
-
   BT::NodeStatus tick() override;
 
 private:
-  rclcpp::Node::SharedPtr node_;
-  rclcpp::Subscription<geometry_msgs::msg::PoseStamped>::SharedPtr sub_;
   geometry_msgs::msg::PoseStamped last_pose_;
   std::atomic<bool> new_msg_;
-  std::thread thread_;
+  rclcpp::Subscription<geometry_msgs::msg::PoseStamped>::SharedPtr sub_;
+  rclcpp::Node::SharedPtr node_;
 };
 
-#endif // SCOUT_NAV2_PKG_WAIT_FOR_ORDER_HPP_
+#endif
+

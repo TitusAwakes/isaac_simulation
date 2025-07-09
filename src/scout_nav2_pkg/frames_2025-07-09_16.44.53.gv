@@ -1,0 +1,16 @@
+digraph G {
+"base_link" -> "front_left_wheel_link"[label=" Broadcaster: default_authority\nAverage rate: 60.377\nBuffer length: 2.65\nMost recent transform: 105.066672\nOldest transform: 102.416672\n"];
+"odom" -> "base_link"[label=" Broadcaster: default_authority\nAverage rate: 60.377\nBuffer length: 2.65\nMost recent transform: 105.066672\nOldest transform: 102.416672\n"];
+"base_link" -> "front_right_wheel_link"[label=" Broadcaster: default_authority\nAverage rate: 60.377\nBuffer length: 2.65\nMost recent transform: 105.066672\nOldest transform: 102.416672\n"];
+"base_link" -> "rear_left_wheel_link"[label=" Broadcaster: default_authority\nAverage rate: 60.377\nBuffer length: 2.65\nMost recent transform: 105.066672\nOldest transform: 102.416672\n"];
+"base_link" -> "rear_right_wheel_link"[label=" Broadcaster: default_authority\nAverage rate: 60.377\nBuffer length: 2.65\nMost recent transform: 105.066672\nOldest transform: 102.416672\n"];
+"base_link" -> "front_mount"[label=" Broadcaster: default_authority\nAverage rate: 60.377\nBuffer length: 2.65\nMost recent transform: 105.066672\nOldest transform: 102.416672\n"];
+"base_link" -> "inertial_link"[label=" Broadcaster: default_authority\nAverage rate: 60.377\nBuffer length: 2.65\nMost recent transform: 105.066672\nOldest transform: 102.416672\n"];
+"base_link" -> "rear_mount"[label=" Broadcaster: default_authority\nAverage rate: 60.377\nBuffer length: 2.65\nMost recent transform: 105.066672\nOldest transform: 102.416672\n"];
+"base_link" -> "c2_lidar_mount_back"[label=" Broadcaster: default_authority\nAverage rate: 60.377\nBuffer length: 2.65\nMost recent transform: 105.066672\nOldest transform: 102.416672\n"];
+"base_link" -> "c2_lidar_mount_front"[label=" Broadcaster: default_authority\nAverage rate: 60.377\nBuffer length: 2.65\nMost recent transform: 105.066672\nOldest transform: 102.416672\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1752079493.9076524"[ shape=plaintext ] ;
+}->"odom";
+}

@@ -1,18 +1,18 @@
-#include "scout_nav2_pkg/navigate_to_pose.hpp"
+#include "scout_nav2_pkg/send_goal_pose.hpp"
 
-NavigateToPose::NavigateToPose(const std::string & name, const BT::NodeConfiguration & config)
+SendGoalPose::SendGoalPose(const std::string & name, const BT::NodeConfiguration & config)
 : BT::StatefulActionNode(name, config)
 {
-  node_ = rclcpp::Node::make_shared("navigate_to_pose_bt_node");
+  node_ = rclcpp::Node::make_shared("send_goal_pose_bt_node");
   action_client_ = rclcpp_action::create_client<NavigateAction>(node_, "navigate_to_pose");
 }
 
-BT::PortsList NavigateToPose::providedPorts()
+BT::PortsList SendGoalPose::providedPorts()
 {
   return {BT::InputPort<geometry_msgs::msg::PoseStamped>("goal")};
 }
 
-BT::NodeStatus NavigateToPose::onStart()
+BT::NodeStatus SendGoalPose::onStart()
 {
   if (!action_client_->wait_for_action_server(std::chrono::seconds(5))) {
     RCLCPP_ERROR(node_->get_logger(), "Action server não disponível");
@@ -32,7 +32,7 @@ BT::NodeStatus NavigateToPose::onStart()
   return BT::NodeStatus::RUNNING;
 }
 
-BT::NodeStatus NavigateToPose::onRunning()
+BT::NodeStatus SendGoalPose::onRunning()
 {
   if (goal_handle_future_.wait_for(std::chrono::seconds(0)) != std::future_status::ready) {
     rclcpp::spin_some(node_);
@@ -63,9 +63,9 @@ BT::NodeStatus NavigateToPose::onRunning()
   }
 }
 
-void NavigateToPose::onHalted()
+void SendGoalPose::onHalted()
 {
-  RCLCPP_WARN(node_->get_logger(), "Nó NavigateToPose foi interrompido");
+  RCLCPP_WARN(node_->get_logger(), "Nó SendGoalPose foi interrompido");
   // Opcional: cancelar a meta se quiser
   /*
   if (goal_handle_)
