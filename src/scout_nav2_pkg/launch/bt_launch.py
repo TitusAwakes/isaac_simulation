@@ -32,14 +32,15 @@ def generate_launch_description():
             os.path.join(
                 get_package_share_directory('nav2_bringup'),
                 'launch',
-                'bringup_launch.py'
+                'navigation_launch.py'
             )
         ]),
         launch_arguments={
             'params_file': './params/nav2_params.yaml',
-            'use_sim_time': 'false',
+            'use_sim_time': 'true',
             'autostart': 'true',
-            'map': './params/map_params.yaml' # Coloque se usar mapa estático
+            'map': './params/map_parameters.yaml',
+            'log_level': 'bt_navigator:=debug'
         }.items()
     )
 
@@ -52,9 +53,29 @@ def generate_launch_description():
         parameters=[{'use_sim_time': False}]
     )
 
+    # Your map yaml file path as-is (with ~)
+    map_yaml_file = './params/map_server.yaml'  # keep tilde here
+
+    # map_server node with your map params
+    map_server_node = Node(
+        package='nav2_map_server',
+        executable='map_server',
+        name='map_server',
+        output='screen',
+        parameters=[map_yaml_file]
+    )
+
+    # lifecycle bringup for map_server
+    lifecycle_bringup_node = Node(
+        package='nav2_util',
+        executable='lifecycle_bringup',
+        name='map_server_lifecycle_bringup',
+        output='screen',
+        arguments=['map_server']
+    )
+
     return LaunchDescription([
         moveit_launch,
         nav2_launch,
-        bt_runner_node,
+        bt_runner_node
     ])
-
