@@ -1,4 +1,3 @@
-cat docker.sh
 #!/bin/bash
 xhost + local: &
 echo $1
