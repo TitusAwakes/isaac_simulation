@@ -32,14 +32,14 @@ def generate_launch_description():
             os.path.join(
                 get_package_share_directory('nav2_bringup'),
                 'launch',
-                'navigation_launch.py'
+                'bringup_launch.py'
             )
         ]),
         launch_arguments={
             'params_file': './params/nav2_params.yaml',
             'use_sim_time': 'true',
             'autostart': 'true',
-            'map': './params/map_parameters.yaml',
+            'map': './params/map.yaml',
             'log_level': 'bt_navigator:=debug'
         }.items()
     )
