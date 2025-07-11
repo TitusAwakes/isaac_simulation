@@ -83,7 +83,6 @@ def generate_launch_description():
     return LaunchDescription([
         nav2_launch,
         moveit_launch,
-        bt_runner_node,
         delayed_initial_pose_pub,
         cmd_vel_pub_cmd
     ])
