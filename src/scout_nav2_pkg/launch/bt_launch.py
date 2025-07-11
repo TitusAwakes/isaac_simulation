@@ -2,7 +2,7 @@ import os
 
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch.actions import IncludeLaunchDescription
+from launch.actions import IncludeLaunchDescription, ExecuteProcess, TimerAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
 
@@ -50,32 +50,41 @@ def generate_launch_description():
         executable='bt_runner',
         name='bt_runner',
         output='screen',
-        parameters=[{'use_sim_time': False}]
+        parameters=[{'use_sim_time': True}]
     )
 
-    # Your map yaml file path as-is (with ~)
-    map_yaml_file = './params/map_server.yaml'  # keep tilde here
-
-    # map_server node with your map params
-    map_server_node = Node(
-        package='nav2_map_server',
-        executable='map_server',
-        name='map_server',
-        output='screen',
-        parameters=[map_yaml_file]
+    # Initial pose publisher command (one shot)
+    initial_pose_pub_cmd = ExecuteProcess(
+        cmd=[
+            'ros2', 'topic', 'pub', '/initialpose',
+            'geometry_msgs/PoseWithCovarianceStamped',
+            "{header: {frame_id: map}, pose: {pose: {position: {x: 0.0, y: 0.0, z: 0.0}, orientation: {x: 0.0, y: 0.0, z: 0.0, w: 1.0}}}}",
+            '--once'
+        ],
+        output='screen'
     )
 
-    # lifecycle bringup for map_server
-    lifecycle_bringup_node = Node(
-        package='nav2_util',
-        executable='lifecycle_bringup',
-        name='map_server_lifecycle_bringup',
-        output='screen',
-        arguments=['map_server']
+    # Delay initial pose pub by 5 seconds to ensure AMCL is up
+    delayed_initial_pose_pub = TimerAction(
+        period=5.0,
+        actions=[initial_pose_pub_cmd]
     )
+    
+    cmd_vel_pub_cmd = ExecuteProcess(
+    cmd=[
+        'ros2', 'topic', 'pub', '/cmd_vel',
+        'geometry_msgs/msg/Twist',
+        "{linear: {x: 0.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}",
+        '--once'
+    ],
+    output='screen'
+)
 
     return LaunchDescription([
-        moveit_launch,
         nav2_launch,
-        bt_runner_node
+        moveit_launch,
+        bt_runner_node,
+        delayed_initial_pose_pub,
+        cmd_vel_pub_cmd
     ])
+
