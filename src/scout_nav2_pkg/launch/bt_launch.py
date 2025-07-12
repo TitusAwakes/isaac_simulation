@@ -39,7 +39,8 @@ def generate_launch_description():
             'params_file': './params/nav2_params.yaml',
             'use_sim_time': 'true',
             'autostart': 'true',
-            'map': './params/map.yaml'
+            'map': './params/map.yaml',
+            'log_level': 'controller_server:=debug'
         }.items()
     )
 

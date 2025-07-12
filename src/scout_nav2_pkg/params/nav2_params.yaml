@@ -188,8 +188,8 @@ local_costmap:
       robot_base_frame: base_link
       use_sim_time: True
       rolling_window: true
-      width: 100
-      height: 100
+      width: 10
+      height: 10
       resolution: 0.05
       robot_radius: 0.3
       plugins: ["voxel_layer", "inflation_layer"]
