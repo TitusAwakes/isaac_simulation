@@ -28,7 +28,7 @@ def generate_launch_description():
             'map': map_file,
             'use_sim_time': True,
             'autostart': True,
-            'log_level': 'controller_server:=debug'
+            'log_level': 'bt_navigator=:debug'
         }.items()
     )
 
@@ -44,22 +44,11 @@ def generate_launch_description():
         ])
     )
 
-
-    # Nó executor do Behavior Tree
-    bt_runner_node = Node(
-        package='scout_nav2_pkg',
-        executable='bt_runner',
-        name='bt_runner',
-        output='screen',
-        parameters=[{'use_sim_time': True}]
-    )
-
-    # Initial pose publisher command (one shot)
     initial_pose_pub_cmd = ExecuteProcess(
         cmd=[
             'ros2', 'topic', 'pub', '/initialpose',
             'geometry_msgs/PoseWithCovarianceStamped',
-            "{header: {frame_id: map}, pose: {pose: {position: {x: 0.0, y: 0.0, z: 0.0}, orientation: {x: 0.0, y: 0.0, z: 0.0, w: 1.0}}}}",
+            "{header: {frame_id: map}, pose: {pose: {position: {x: 12.5, y: 12.5, z: 0.0}, orientation: {x: 0.0, y: 0.0, z: 3.14, w: 1.0}}}}",
             '--once'
         ],
         output='screen'
@@ -67,10 +56,10 @@ def generate_launch_description():
 
     # Delay initial pose pub by 5 seconds to ensure AMCL is up
     delayed_initial_pose_pub = TimerAction(
-        period=5.0,
+        period=15.0,
         actions=[initial_pose_pub_cmd]
     )
-    
+
     cmd_vel_pub_cmd = ExecuteProcess(
     cmd=[
         'ros2', 'topic', 'pub', '/cmd_vel',
@@ -84,7 +73,7 @@ def generate_launch_description():
     return LaunchDescription([
         nav2_launch,
         moveit_launch,
-        delayed_initial_pose_pub,
-        cmd_vel_pub_cmd
+        cmd_vel_pub_cmd,
+        delayed_initial_pose_pub
     ])
 
