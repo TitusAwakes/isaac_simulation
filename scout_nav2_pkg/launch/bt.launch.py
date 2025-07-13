@@ -8,6 +8,31 @@ from ament_index_python.packages import get_package_share_directory
 
 
 def generate_launch_description():
+
+    nav2_bringup_dir = get_package_share_directory('nav2_bringup')
+    scout_nav2_pkg_dir = get_package_share_directory('scout_nav2_pkg')  # Your package name
+
+    # Paths to parameter and map files
+    nav2_params_file = os.path.join(scout_nav2_pkg_dir, 'params', 'nav2_params.yaml')
+    map_file = os.path.join(scout_nav2_pkg_dir, 'params', 'map.yaml')
+
+    print(f"Nav2 Params file: {nav2_params_file}")
+
+    # Nav2 Launch
+    nav2_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(nav2_bringup_dir, 'launch', 'bringup_launch.py')
+        ),
+        launch_arguments={
+            'params_file': nav2_params_file,
+            'map': map_file,
+            'use_sim_time': True,
+            'autostart': True,
+            'log_level': 'controller_server:=debug'
+        }.items()
+    )
+
+
     # Caminho para o launch do MoveIt
     moveit_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
@@ -19,30 +44,6 @@ def generate_launch_description():
         ])
     )
 
-    # Caminho para os parâmetros do Nav2
-    nav2_params_file = os.path.join(
-        get_package_share_directory('nav2_bringup'),
-        'params',
-        'nav2_params.yaml'
-    )
-
-    # Launch do Nav2 Bringup
-    nav2_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([
-            os.path.join(
-                get_package_share_directory('nav2_bringup'),
-                'launch',
-                'bringup_launch.py'
-            )
-        ]),
-        launch_arguments={
-            'params_file': './params/nav2_params.yaml',
-            'use_sim_time': 'true',
-            'autostart': 'true',
-            'map': './params/map.yaml',
-            'log_level': 'controller_server:=debug'
-        }.items()
-    )
 
     # Nó executor do Behavior Tree
     bt_runner_node = Node(
