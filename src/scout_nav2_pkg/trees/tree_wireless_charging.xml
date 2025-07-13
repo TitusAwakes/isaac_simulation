@@ -1,8 +1,0 @@
-<root main_tree_to_execute="MoveScout">
-  <BehaviorTree ID="MoveScout">
-    <Sequence name="GotoSequence">
-      <WaitForOrder output_goal="{target_pose}" />
-      <NavigateToPose goal="{target_pose}" />
-    </Sequence>
-  </BehaviorTree>
-</root>

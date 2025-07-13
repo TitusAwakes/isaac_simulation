@@ -1,0 +1,39 @@
+<CycloneDDS xmlns="https://cdds.io/config">
+  <Domain>
+    <!-- Ensure sufficient history for large data and prevent loss -->
+    <General>
+      <NetworkInterfaceAddress>auto</NetworkInterfaceAddress>
+      <AllowMulticast>true</AllowMulticast>
+      <MaxMessageSize>65536</MaxMessageSize> <!-- 64 KB per message -->
+      <FragmentSize>4096</FragmentSize> <!-- Fragmentation for large data -->
+      <RecvBufferSize>1048576</RecvBufferSize> <!-- 1 MB receive buffer -->
+    </General>
+
+    <!-- Discovery settings -->
+    <Discovery>
+      <Peers>
+        <Peer address="239.255.0.1"/> <!-- Multicast address -->
+      </Peers>
+      <ParticipantIndex>auto</ParticipantIndex>
+    </Discovery>
+
+    <!-- Threading and performance tuning -->
+    <Threads>
+      <EnableMultithreading>true</EnableMultithreading>
+    </Threads>
+
+    <!-- Tuning reliability for high-throughput sensor topics -->
+    <Internal>
+      <EnableMulticastLoopback>false</EnableMulticastLoopback>
+      <MaxQueuedMessages>1024</MaxQueuedMessages>
+      <PreallocPartialMatchCache>true</PreallocPartialMatchCache>
+      <WhcHighwaterMark>256</WhcHighwaterMark>
+    </Internal>
+
+    <!-- Statistics (optional but useful for debugging performance) -->
+    <Tracing>
+      <Verbosity>warning</Verbosity>
+      <OutputFile>cyclonedds.log</OutputFile>
+    </Tracing>
+  </Domain>
+</CycloneDDS>

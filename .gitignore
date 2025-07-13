@@ -4,3 +4,7 @@ log/
 install/
 build/
 .vscode
+scout_description/scout_mini/.thumbs/256x256/scout_and_piper_ros2_final.usd.png
+scout_nav2_pkg/*.gv
+scout_nav2_pkg/*.pdf
+
