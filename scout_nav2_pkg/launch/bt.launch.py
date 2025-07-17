@@ -2,7 +2,8 @@ import os
 
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch.actions import IncludeLaunchDescription, ExecuteProcess, TimerAction
+from launch.actions import IncludeLaunchDescription, ExecuteProcess, DeclareLaunchArgument, TimerAction
+from launch.substitutions import LaunchConfiguration
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
 
@@ -18,30 +19,40 @@ def generate_launch_description():
 
     print(f"Nav2 Params file: {nav2_params_file}")
 
+    declare_use_sim_time_cmd = DeclareLaunchArgument(
+        'use_sim_time',
+        default_value='true',
+        description='Use simulation clock if true')
+
+    declare_auto_cmd = DeclareLaunchArgument(
+        'autostart',
+        default_value='true',
+        description='autostart nav2')
+
     # Nav2 Launch
     nav2_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(nav2_bringup_dir, 'launch', 'bringup_launch.py')
         ),
         launch_arguments={
-            'params_file': nav2_params_file,
-            'map': map_file,
-            'use_sim_time': True,
-            'autostart': True,
-            'log_level': 'bt_navigator=:debug'
+            'params_file': './params/nav2_params.yaml',
+            'map': './params/map.yaml',
+            'use_sim_time': 'true',
+            'autostart': 'true'
+            # 'log_level': 'bt_navigator=:debug'
         }.items()
     )
 
 
     # Caminho para o launch do MoveIt
     moveit_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([
+        PythonLaunchDescriptionSource(
             os.path.join(
                 get_package_share_directory('piper_camera_moveit_config'),
                 'launch',
                 'demo.launch.py'
             )
-        ])
+        )
     )
 
     initial_pose_pub_cmd = ExecuteProcess(
@@ -56,7 +67,7 @@ def generate_launch_description():
 
     # Delay initial pose pub by 5 seconds to ensure AMCL is up
     delayed_initial_pose_pub = TimerAction(
-        period=15.0,
+        period=5.0,
         actions=[initial_pose_pub_cmd]
     )
 
@@ -74,6 +85,14 @@ def generate_launch_description():
         nav2_launch,
         moveit_launch,
         cmd_vel_pub_cmd,
-        delayed_initial_pose_pub
-    ])
+        delayed_initial_pose_pub,
 
+
+        Node(
+            package='rviz2',
+            executable='rviz2',
+            output='screen',
+            parameters=[{'use_sim_time':True}]
+        )
+
+        ])
